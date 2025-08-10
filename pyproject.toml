@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orion-feature-flags"
+version = "0.1.0"
+description = "Simple feature flag service with FastAPI + SQLite and minimal Python/JS SDKs"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["fastapi>=0.112.0", "uvicorn[standard]>=0.30.0", "pydantic>=2.8.0", "sqlite-utils>=3.36"]
