@@ -1,5 +1,9 @@
 from __future__ import annotations
-import httpx, time
+
+import time
+
+import httpx
+
 
 class OrionClient:
     def __init__(self, base_url: str):
@@ -14,13 +18,15 @@ class OrionClient:
         return None
 
     def _set_cached(self, key, val):
-        self.cache[key] = {"val": val, "exp": time.time()+self.ttl}
+        self.cache[key] = {"val": val, "exp": time.time() + self.ttl}
 
     def eval(self, key: str, context: dict) -> bool:
         cached = self._get_cached((key, tuple(sorted(context.items()))))
         if cached is not None:
             return cached
-        r = httpx.post(f"{self.base_url}/eval", json={"key": key, "context": context}, timeout=10.0)
+        r = httpx.post(
+            f"{self.base_url}/eval", json={"key": key, "context": context}, timeout=10.0
+        )
         r.raise_for_status()
         val = bool(r.json().get("value", False))
         self._set_cached((key, tuple(sorted(context.items()))), val)
